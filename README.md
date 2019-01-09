@@ -25,5 +25,8 @@ yarn run test
 yarn run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### 项目介绍
+```
+1.基于 vue-cli
+2.后端基于 spring + spring mvc + mybatis
+```
