@@ -12,7 +12,7 @@
 
       <div class="wrapper">
         <ul class="post-list">
-          <li v-for="(item, index) in article" :key="index">
+          <li v-for="(item, index) in article.list" :key="index">
             <h2>
               <a
                 class="post-link"
@@ -42,21 +42,36 @@
 
         <nav class="pagination" role="navigation">
           <p>
-            <a class="newer-posts" href="/centrarium/page2">
+            <a
+              class="newer-posts"
+              href="javascript:;"
+              @click="setPage(article.pageNum - 1)"
+              v-show="article.hasPreviousPage"
+            >
               <span class="fa-stack fa-lg">
                 <i class="fa fa-square fa-stack-2x"></i>
                 <i class="fa fa-angle-double-left fa-stack-1x fa-inverse"></i>
               </span>
             </a>
 
-            <span class="page-number">Page 1 of 2</span>
-
-            <span class="fa-stack fa-lg">
-              <i class="fa fa-square fa-stack-2x"></i>
-              <i class="fa fa-angle-double-right fa-stack-1x fa-inverse"></i>
-            </span>
+            <span class="page-number">
+              {{ article.pageNum }} of
+              {{
+                article.nextPage == 0 ? article.pageNum : article.nextPage
+              }}</span
+            >
+            <a
+              class="newer-posts"
+              href="javascript:;"
+              @click="setPage(article.pageNum + 1)"
+              v-show="article.hasNextPage"
+            >
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-square fa-stack-2x"></i>
+                <i class="fa fa-angle-double-right fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
           </p>
-          <p><a href="/centrarium/posts">View All Posts by Category</a></p>
         </nav>
       </div>
     </div>
@@ -67,15 +82,22 @@
 export default {
   data() {
     return {
-      article: []
+      article: [],
+      page: 1
     };
   },
   methods: {
     getArticle() {
-      this.axios.get("/api/article.do").then(res => {
-        this.article = res.data.data.list;
-        window.console.log(this.article);
-      });
+      this.axios
+        .get("/api/article.do", { params: { page: this.page } })
+        .then(res => {
+          this.article = res.data.data;
+          window.console.log(res.data);
+        });
+    },
+    setPage(value) {
+      this.page = value;
+      this.getArticle();
     }
   },
   created() {
