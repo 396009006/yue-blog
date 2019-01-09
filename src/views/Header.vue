@@ -2,7 +2,7 @@
   <div>
     <header class="navigation" role="banner">
       <div class="navigation-wrapper">
-        <a href="/centrarium/" class="logo">
+        <a href="/" class="logo">
           <img src="./../assets/logo.png" alt="Centrarium" />
         </a>
         <a

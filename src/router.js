@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
 import Article from "./views/Article.vue";
+import ArticleDetailed from "./views/ArticleDetailed";
 
 Vue.use(Router);
 
@@ -10,14 +11,13 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "Article",
+      name: "article",
       component: Article
     },
     {
-      path: "/about",
-      name: "about",
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Article.vue")
+      path: "/article/:arId",
+      name: "articleDetailed",
+      component: ArticleDetailed
     }
   ]
 });

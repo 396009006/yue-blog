@@ -14,14 +14,16 @@
         <ul class="post-list">
           <li v-for="(item, index) in article.list" :key="index">
             <h2>
-              <a
-                class="post-link"
-                href="/centrarium/jekyll/2015/04/18/welcome-to-jekyll.html"
-                >{{ item.article.arTitle }}</a
+              <router-link
+                :to="{
+                  name: 'articleDetailed',
+                  params: { arId: item.article.arId }
+                }"
+                >{{ item.article.arTitle }}</router-link
               >
             </h2>
             <section class="post-excerpt" itemprop="description">
-              <p>{{ item.article.arValue }}</p>
+              <p>{{ base64.decode(item.article.arValue) | filterHtml }}</p>
             </section>
             <section class="post-meta">
               <div class="post-date">
@@ -85,6 +87,11 @@ export default {
       article: [],
       page: 1
     };
+  },
+  filters: {
+    filterHtml(val) {
+      return val.replace(/<[^>]*>/g).replace(/[undefined]/g, "");
+    }
   },
   methods: {
     getArticle() {
