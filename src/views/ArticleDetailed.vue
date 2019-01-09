@@ -5,7 +5,6 @@
         <div class="scrim ">
           <header v-if="article" class="post-header">
             <h1 class="title">{{ article.data.article.arTitle }}</h1>
-            <p class="info">by <strong>Ben Centra</strong></p>
           </header>
         </div>
       </div>

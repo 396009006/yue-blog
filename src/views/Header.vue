@@ -18,9 +18,13 @@
             class="navigation-menu"
             :style="{ display: nav_display }"
           >
-            <li class="nav-link"><a href="/centrarium/about/">首页</a></li>
-            <li class="nav-link"><a href="/centrarium/posts/">关于</a></li>
-            <li class="nav-link"><a href="/centrarium/typography/">项目</a></li>
+            <li
+              class="nav-link"
+              v-for="(item, index) in navigation.data"
+              :key="index"
+            >
+              <a href="/centrarium/about/">{{ item.navTitle }}</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -32,7 +36,8 @@
 export default {
   data() {
     return {
-      nav_display: ""
+      nav_display: "",
+      navigation: []
     };
   },
   methods: {
@@ -40,7 +45,17 @@ export default {
       this.nav_display == "block"
         ? (this.nav_display = "none")
         : (this.nav_display = "block");
+    },
+    getNavigation() {
+      this.axios.get("/api/navigation.do").then(res => {
+        this.navigation = res.data;
+        console.log(res);
+      });
     }
+  },
+  mounted() {
+    this.getNavigation();
+    console.log(this.navigation);
   }
 };
 </script>

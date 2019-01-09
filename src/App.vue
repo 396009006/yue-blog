@@ -34,4 +34,22 @@ a {
   color: #2980b9;
   text-decoration: none;
 }
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+    transform: translateY(0);
+  }
+}
+#app {
+  animation: fade-in; /*动画名称*/
+  animation-duration: 0.5s; /*动画持续时间*/
+  -webkit-animation: fade-in 0.5s; /*针对webkit内核*/
+}
 </style>

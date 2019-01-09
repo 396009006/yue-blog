@@ -11,9 +11,12 @@
       </div>
 
       <div class="wrapper">
-        <ul class="post-list">
+        <ul class="post-list" v-if="article">
+          <div class="load-container load4" v-show="article == null">
+            <div class="loader">Loading...</div>
+          </div>
           <li v-for="(item, index) in article.list" :key="index">
-            <h2>
+            <h3>
               <router-link
                 :to="{
                   name: 'articleDetailed',
@@ -21,20 +24,20 @@
                 }"
                 >{{ item.article.arTitle }}</router-link
               >
-            </h2>
+            </h3>
             <section class="post-excerpt" itemprop="description">
               <p>{{ base64.decode(item.article.arValue) | filterHtml }}</p>
             </section>
             <section class="post-meta">
+              <div class="post-categories">
+                <i class="fa fa-tags" aria-hidden="true"></i>&nbsp;
+                {{ item.category.caTitle }}
+              </div>
+
               <div class="post-date">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;{{
                   item.article.arTime
                 }}
-              </div>
-              <div class="post-categories">
-                in
-
-                <a href="/centrarium/category/jekyll">Jekyll</a>
               </div>
             </section>
           </li>
@@ -42,36 +45,26 @@
           <hr />
         </ul>
 
-        <nav class="pagination" role="navigation">
+        <nav class="pagination" role="navigation" v-if="article">
           <p>
             <a
               class="newer-posts"
+              style="float:left"
               href="javascript:;"
               @click="setPage(article.pageNum - 1)"
               v-show="article.hasPreviousPage"
             >
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-angle-double-left fa-stack-1x fa-inverse"></i>
-              </span>
+              <span class="page"> « 上一页 </span>
             </a>
 
-            <span class="page-number">
-              {{ article.pageNum }} of
-              {{
-                article.nextPage == 0 ? article.pageNum : article.nextPage
-              }}</span
-            >
             <a
               class="newer-posts"
+              style="float:right"
               href="javascript:;"
               @click="setPage(article.pageNum + 1)"
               v-show="article.hasNextPage"
             >
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-square fa-stack-2x"></i>
-                <i class="fa fa-angle-double-right fa-stack-1x fa-inverse"></i>
-              </span>
+              <span class="page"> 下一页 »</span>
             </a>
           </p>
         </nav>
@@ -84,7 +77,7 @@
 export default {
   data() {
     return {
-      article: [],
+      article: null,
       page: 1
     };
   },
